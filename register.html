@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কাজকরি - কারিগর হিসেবে রেজিস্ট্রেশন করুন</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 py-10 px-4">
+
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-10">
+        <div class="text-center mb-8">
+            <a href="index.html" class="text-2xl font-bold text-blue-600 tracking-wide">
+                🛠️ কাজ<span class="text-emerald-500">করি</span>
+            </a>
+            <h2 class="text-2xl font-bold text-gray-900 mt-4">শ্রমিক/কারিগর হিসেবে অ্যাকাউন্ট খুলুন</h2>
+            <p class="text-gray-500 text-sm mt-1">আপনার সঠিক তথ্য দিয়ে যুক্ত হয়ে নিয়মিত কাজ পান</p>
+        </div>
+
+        <form class="space-y-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">আপনার পূর্ণ নাম *</label>
+                <input type="text" placeholder="যেমন: মো: রফিকুল ইসলাম" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">মোবাইল নম্বর (OTP পাঠানো হবে) *</label>
+                <input type="tel" placeholder="017XXXXXXXX" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">কাজের ক্যাটাগরি *</label>
+                    <select class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500">
+                        <option value="">ক্যাটাগরি নির্বাচন করুন</option>
+                        <option value="electrician">⚡ ইলেকট্রিশিয়ান</option>
+                        <option value="plumber">🚰 প্লাম্বার</option>
+                        <option value="painter">🎨 রং মিস্ত্রি</option>
+                        <option value="carpenter">🔨 কাঠ মিস্ত্রি</option>
+                        <option value="appliance">🔌 এসি / ফ্রিজ মেরামত</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">অভিজ্ঞতা (বছরে) *</label>
+                    <input type="number" placeholder="যেমন: ৫" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500" required>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">আপনার এলাকা/লোকেশন *</label>
+                    <input type="text" placeholder="যেমন: মিরপুর-১০, ঢাকা" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">আনুমানিক পারিশ্রমিক (টাকায়) *</label>
+                    <input type="number" placeholder="যেমন: ৫০০" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:border-blue-500" required>
+                </div>
+            </div>
+
+            <div class="border-t pt-4 mt-4">
+                <h3 class="font-bold text-gray-800 text-base mb-3">জাতীয় পরিচয়পত্র (NID) ভেরিফিকেশন</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-600 mb-1">NID কার্ডের সামনের ছবি</label>
+                        <input type="file" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600 mb-1">আপনার নিজের ছবি (Profile Photo)</label>
+                        <input type="file" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition mt-6">
+                আবেদন জমা দিন (Submit)
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-sm text-gray-500 hover:text-blue-600">← হোমপেজে ফিরে যান</a>
+        </div>
+    </div>
+
+    <script>
+        const registerForm = document.querySelector('form');
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const inputs = registerForm.querySelectorAll('input, select');
+            const newWorker = {
+                id: Date.now(),
+                name: inputs[0].value,
+                phone: inputs[1].value,
+                category: inputs[2].options[inputs[2].selectedIndex].text,
+                experience: inputs[3].value,
+                location: inputs[4].value,
+                price: inputs[5].value,
+                rating: '৫.০ (নতুন)',
+                verified: true
+            };
+
+            let existingWorkers = JSON.parse(localStorage.getItem('kajkori_workers')) || [];
+            existingWorkers.unshift(newWorker);
+            localStorage.setItem('kajkori_workers', JSON.stringify(existingWorkers));
+
+            alert('অভিনন্দন! আপনার আবেদন সফলভাবে জমা হয়েছে।');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
