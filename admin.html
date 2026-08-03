@@ -92,10 +92,21 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
+        // 🛡️ অ্যাডমিন ইমেইল সিকিউরিটি ভেরিফিকেশন
+        const ADMIN_EMAIL = "admin@kajkori.com";
+
         auth.onAuthStateChanged((user) => {
             if (!user) {
+                // ১. ইউজার লগইন না করা থাকলে লগইন পেজে পাঠাবে
                 window.location.href = "login.html";
+            } else if (!user.email || user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+                // ২. অন্য কোনো সাধারণ ইউজার হলে সাথে সাথে ব্লক করে হোমপেজে পাঠাবে
+                alert("❌ আপনার এই অ্যাডমিন প্যানেলে প্রবেশ করার কোনো অনুমতি নেই!");
+                auth.signOut().then(() => {
+                    window.location.href = "index.html";
+                });
             } else {
+                // ৩. শুধুমাত্র admin@kajkori.com হলেই ডাটা লোড হবে
                 loadBookings();
                 loadWorkers();
             }
