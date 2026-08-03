@@ -13,6 +13,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
       const firebaseConfig = {
@@ -35,13 +36,17 @@
         <div class="text-2xl font-bold text-blue-600 tracking-wide">
             🛠️ কাজ<span class="text-emerald-500">করি</span>
         </div>
-        <div class="space-x-2">
-            <a href="login.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition flex items-center gap-1">
-                👤 লগইন
+
+        <div class="flex items-center gap-2">
+            <a href="register.html" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs md:text-sm font-semibold hover:bg-emerald-700 transition">
+                👷‍♂️ শ্রমিক হিসেবে যুক্ত হন
             </a>
-            <a href="register.html" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition inline-block">
-                শ্রমিক হিসেবে যুক্ত হন
-            </a>
+
+            <div id="authNavArea">
+                <a href="login.html" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs md:text-sm font-semibold hover:bg-blue-700 transition">
+                    👤 লগইন
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -308,6 +313,36 @@
 
             const targetSection = document.getElementById('workerContainer');
             if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        firebase.auth().onAuthStateChanged((user) => {
+            const authNavArea = document.getElementById('authNavArea');
+            if (!authNavArea) return;
+
+            if (user) {
+                const displayName = user.displayName || user.email.split('@')[0];
+                authNavArea.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1.5 rounded-lg border">👋 ${displayName}</span>
+                        <button onclick="userLogout()" class="bg-red-500 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-red-600 transition">
+                            লগআউট
+                        </button>
+                    </div>
+                `;
+            } else {
+                authNavArea.innerHTML = `
+                    <a href="login.html" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs md:text-sm font-semibold hover:bg-blue-700 transition">
+                        👤 লগইন
+                    </a>
+                `;
+            }
+        });
+
+        function userLogout() {
+            firebase.auth().signOut().then(() => {
+                alert("আপনি সফলভাবে লগআউট হয়েছেন।");
+                window.location.reload();
+            });
         }
 
         document.addEventListener('DOMContentLoaded', loadWorkers);
