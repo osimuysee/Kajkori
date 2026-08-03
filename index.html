@@ -18,7 +18,7 @@
 
     <script>
       const firebaseConfig = {
-        apiKey: "AIzaSyCXD9-SYaqnmatYe81M9wBeSB4wjJGFAZQ",
+        apiKey: "AIzaSyCXD9-SYAqnmatYe81M9wBeSB4wjJGFAZQ",
         authDomain: "kajkori-8a07e.firebaseapp.com",
         projectId: "kajkori-8a07e",
         storageBucket: "kajkori-8a07e.firebasestorage.app",
@@ -89,7 +89,25 @@
             <a href="#" class="text-blue-600 hover:underline font-semibold text-sm">সবাইকে দেখুন →</a>
         </div>
 
-        <div id="workerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Search & Filter Controls -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 mb-1">খুঁজুন (নাম বা এলাকা)</label>
+                <input type="text" id="searchInput" onkeyup="filterWorkers()" placeholder="যেমন: Barishal বা Halland..." class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 mb-1">ক্যাটাগরি বেছে নিন</label>
+                <select id="categoryFilter" onchange="filterWorkers()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">সকল ক্যাটাগরি</option>
+                    <option value="রং মিস্ত্রি">রং মিস্ত্রি</option>
+                    <option value="ইলেকট্রিশিয়ান">ইলেকট্রিশিয়ান</option>
+                    <option value="প্লাম্বার">প্লাম্বার</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="workerContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="worker-card bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between" data-category="⚡ ইলেকট্রিশিয়ান">
                 <div class="flex items-center gap-4">
                     <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150" alt="Worker" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-500">
@@ -245,6 +263,64 @@
             });
         }
 
+        let allWorkers = [];
+
+        function loadWorkers() {
+            db.collection("workers").onSnapshot((snapshot) => {
+                allWorkers = [];
+                snapshot.forEach((doc) => {
+                    allWorkers.push({ id: doc.id, ...doc.data() });
+                });
+                renderWorkers(allWorkers);
+            });
+        }
+
+        function renderWorkers(workersList) {
+            const workerContainer = document.getElementById('workerContainer');
+            if (!workerContainer) return;
+
+            if (workersList.length === 0) {
+                workerContainer.innerHTML = `<p class="col-span-full text-center text-gray-400 py-8">কোনো শ্রমিক খুঁজে পাওয়া যায়নি</p>`;
+                return;
+            }
+
+            workerContainer.innerHTML = '';
+            workersList.forEach((w) => {
+                const img = w.image || 'https://via.placeholder.com/100';
+                workerContainer.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow border flex flex-col justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="${img}" class="w-12 h-12 rounded-full object-cover border">
+                            <div>
+                                <h3 class="font-bold text-gray-800">${w.name || '-'}</h3>
+                                <span class="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-medium">${w.category || '-'}</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-sm text-gray-600 space-y-1">
+                            <p>📍 এলাকা: ${w.area || '-'}</p>
+                            <p>📞 মোবাইল: ${w.phone || '-'}</p>
+                            <p class="font-bold text-emerald-600">৳${w.charge || '-'}</p>
+                        </div>
+                        <button onclick="openBookingModal('${w.id}', '${w.name}')" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">বুক করুন</button>
+                    </div>
+                `;
+            });
+        }
+
+        function filterWorkers() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+
+            const filtered = allWorkers.filter(w => {
+                const matchesSearch = (w.name && w.name.toLowerCase().includes(searchText)) || 
+                                      (w.area && w.area.toLowerCase().includes(searchText));
+                const matchesCategory = selectedCategory === 'all' || (w.category && w.category.includes(selectedCategory));
+                return matchesSearch && matchesCategory;
+            });
+
+            renderWorkers(filtered);
+        }
+
         function filterCategory(categoryName, selectedBtn) {
             const filterBtns = document.querySelectorAll('.category-btn');
             filterBtns.forEach(btn => {
@@ -257,46 +333,15 @@
                 selectedBtn.classList.add('bg-blue-600', 'text-white');
             }
 
-            const allCards = document.querySelectorAll('.worker-card');
-            allCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                card.style.display = (categoryName === 'all' || cardCategory === categoryName) ? 'flex' : 'none';
-            });
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.value = categoryName === 'all' ? 'all' : categoryName.replace('⚡ ', '').replace('🚰 ', '').replace('🎨 ', '').replace('🔨 ', '');
+            }
+
+            filterWorkers();
         }
 
-        function loadWorkersFromFirebase() {
-            db.collection("workers").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-                const container = document.getElementById('workerGrid');
-                if (!container) return;
-
-                const defaultCards = Array.from(container.querySelectorAll('.worker-card'));
-                container.innerHTML = '';
-                defaultCards.forEach(card => container.appendChild(card));
-
-                snapshot.forEach((doc) => {
-                    const w = doc.data();
-                    const displayImage = w.image || 'https://via.placeholder.com/150';
-
-                    const card = document.createElement('div');
-                    card.className = 'bg-white p-4 rounded-xl shadow-md border hover:shadow-lg transition';
-                    card.innerHTML = `
-                        <img src="${displayImage}" alt="${w.name}" class="w-full h-40 object-cover rounded-lg mb-3" onerror="this.src='https://via.placeholder.com/150'">
-                        <h3 class="font-bold text-lg text-gray-900">${w.name || '-'}</h3>
-                        <p class="text-sm text-gray-500">${w.category || '-'} • ${w.area || '-'}</p>
-                        <p class="text-emerald-600 font-bold mt-2">চার্জ: ৳${w.charge || '-'}</p>
-                        <button onclick="openBookingModal('${w.name || ''}', '${w.category || ''}')" class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700">বুকিং করুন</button>
-                    `;
-                    container.appendChild(card);
-                });
-
-                filterCategory('all', document.querySelector('.category-btn'));
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadWorkersFromFirebase();
-            filterCategory('all', document.querySelector('.category-btn'));
-        });
+        document.addEventListener('DOMContentLoaded', loadWorkers);
     </script>
 </body>
 </html>
