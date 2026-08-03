@@ -11,6 +11,27 @@
     <style>
         body { font-family: 'Hind Siliguri', sans-serif; }
     </style>
+
+    <!-- Firebase CDN SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      // আপনার আসল ফায়ারবেস কনফিগারেশন
+      const firebaseConfig = {
+        apiKey: "AIzaSyCXD9-SYaqnmatYe81M9wBeSB4wjJGFAZQ",
+        authDomain: "kajkori-8a07e.firebaseapp.com",
+        projectId: "kajkori-8a07e",
+        storageBucket: "kajkori-8a07e.firebasestorage.app",
+        messagingSenderId: "594029245687",
+        appId: "1:594029245687:web:d2364820ce6be9d4104ff2",
+        measurementId: "G-K4NH7TW7D9"
+      };
+
+      // ফায়ারবেস ইনিশিয়ালাইজ করা
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -98,7 +119,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৫০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openBookingModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান', '01712345678')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান', '01712345678')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -123,7 +144,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৬০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openBookingModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)', '01723456789')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)', '01723456789')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -148,7 +169,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৪৫০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openBookingModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি', '01734567890')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি', '01734567890')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -189,17 +210,16 @@
     </div>
 
     <script>
-        function openBookingModal(workerName, category, phone) {
+        function openModal(name, category, phone) {
             const modal = document.getElementById('bookingModal');
-            const workerNameSpan = document.getElementById('modalWorkerName');
-            const bookedWorker = document.getElementById('bookedWorker');
-            
-            if (modal && workerNameSpan && bookedWorker) {
-                workerNameSpan.innerText = `${workerName} (${category})`;
-                bookedWorker.value = workerName;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+            document.getElementById('modalWorkerName').textContent = name;
+            const modalWorkerPhone = document.getElementById('modalWorkerPhone');
+            if (modalWorkerPhone) {
+                modalWorkerPhone.textContent = '📞 ' + phone;
+                modalWorkerPhone.href = 'tel:' + phone;
             }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function renderRegisteredWorkers() {
@@ -221,7 +241,7 @@
                         <p class="text-xs text-gray-500 mb-2">📍 ${worker.location} • 💼 ${worker.experience} বছরের অভিজ্ঞতা</p>
                         <p class="text-sm font-semibold text-gray-700">চার্জ: ৳${worker.price} / কাজ</p>
                     </div>
-                    <button onclick="openBookingModal('${worker.name}', '${worker.category}', '${worker.phone || ''}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-sm transition">
+                    <button onclick="openBookingModal('${worker.name}', '${worker.category}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-sm transition">
                         বুকিং করুন
                     </button>
                 `;
@@ -249,6 +269,18 @@
             });
         }
 
+        function openBookingModal(workerName, category) {
+            const modal = document.getElementById('bookingModal');
+            const workerNameSpan = document.getElementById('modalWorkerName');
+            
+            if (modal && workerNameSpan) {
+                workerNameSpan.innerText = `${workerName} (${category})`;
+                document.getElementById('bookedWorker').value = workerName;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
         function closeBookingModal() {
             const modal = document.getElementById('bookingModal');
             if (modal) {
@@ -257,31 +289,31 @@
             }
         }
 
-        // বুকিং ডাটা LocalStorage-এ সেভ করা
         function handleBookingSubmit(event) {
             event.preventDefault();
+
             const worker = document.getElementById('bookedWorker').value;
             const name = document.getElementById('customerName').value;
             const phone = document.getElementById('customerPhone').value;
             const address = document.getElementById('customerAddress').value;
 
-            const newBooking = {
-                id: Date.now(),
+            // সরাসরি ফায়ারবেস ক্লাউডে ডাটা সেভ করা
+            db.collection("bookings").add({
                 workerName: worker,
                 customerName: name,
                 customerPhone: phone,
                 customerAddress: address,
-                date: new Date().toLocaleDateString('bn-BD'),
-                status: 'পেন্ডিং'
-            };
-
-            const savedBookings = JSON.parse(localStorage.getItem('kajkori_bookings')) || [];
-            savedBookings.push(newBooking);
-            localStorage.setItem('kajkori_bookings', JSON.stringify(savedBookings));
-
-            alert(`ধন্যবাদ ${name}! ${worker}-এর জন্য আপনার বুকিং রিকোয়েস্টটি সেভ হয়েছে।`);
-            closeBookingModal();
-            document.getElementById('bookingForm').reset();
+                status: 'পেন্ডিং',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp() // ক্লাউড সার্ভারের নির্দিষ্ট সময়
+            })
+            .then(() => {
+                alert(`ধন্যবাদ ${name}! আপনার বুকিং রিকোয়েস্টটি সফলভাবে সেভ হয়েছে।`);
+                closeBookingModal();
+                document.getElementById('bookingForm').reset();
+            })
+            .catch((error) => {
+                alert("সমস্যা হয়েছে: " + error.message);
+            });
         }
 
         function dismissToast(button) {
