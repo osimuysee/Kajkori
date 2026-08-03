@@ -95,6 +95,9 @@
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = "login.html";
+            } else {
+                loadBookings();
+                loadWorkers();
             }
         });
 
@@ -200,11 +203,6 @@
                     .catch((err) => alert('সমস্যা হয়েছে: ' + err.message));
             }
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadBookings();
-            loadWorkers();
-        });
     </script>
 </body>
 </html>
