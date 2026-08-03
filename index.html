@@ -98,7 +98,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৫০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান', '01712345678')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান', '01712345678')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -123,7 +123,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৬০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)', '01723456789')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)', '01723456789')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -148,7 +148,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৪৫০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি', '01734567890')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি', '01734567890')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -163,7 +163,7 @@
             <h3 class="text-xl font-bold text-gray-900 mb-1">কারিগর বুকিং নিশ্চিত করুন</h3>
             <p class="text-xs text-gray-500 mb-4">আপনি <span id="modalWorkerName" class="font-bold text-blue-600"></span>-কে সার্ভিসটির জন্য বুক করছেন।</p>
 
-            < id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-3">
+            <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-3">
                 <input type="hidden" id="bookedWorker">
                 
                 <div>
@@ -189,16 +189,17 @@
     </div>
 
     <script>
-        function openModal(name, category, phone) {
+        function openBookingModal(workerName, category, phone) {
             const modal = document.getElementById('bookingModal');
-            document.getElementById('modalWorkerName').textContent = name;
-            const modalWorkerPhone = document.getElementById('modalWorkerPhone');
-            if (modalWorkerPhone) {
-                modalWorkerPhone.textContent = '📞 ' + phone;
-                modalWorkerPhone.href = 'tel:' + phone;
+            const workerNameSpan = document.getElementById('modalWorkerName');
+            const bookedWorker = document.getElementById('bookedWorker');
+            
+            if (modal && workerNameSpan && bookedWorker) {
+                workerNameSpan.innerText = `${workerName} (${category})`;
+                bookedWorker.value = workerName;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
             }
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
         function renderRegisteredWorkers() {
@@ -220,7 +221,7 @@
                         <p class="text-xs text-gray-500 mb-2">📍 ${worker.location} • 💼 ${worker.experience} বছরের অভিজ্ঞতা</p>
                         <p class="text-sm font-semibold text-gray-700">চার্জ: ৳${worker.price} / কাজ</p>
                     </div>
-                    <button onclick="openBookingModal('${worker.name}', '${worker.category}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-sm transition">
+                    <button onclick="openBookingModal('${worker.name}', '${worker.category}', '${worker.phone || ''}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-sm transition">
                         বুকিং করুন
                     </button>
                 `;
@@ -246,18 +247,6 @@
                 const cardCategory = card.getAttribute('data-category');
                 card.style.display = (categoryName === 'all' || cardCategory === categoryName) ? 'flex' : 'none';
             });
-        }
-
-        function openBookingModal(workerName, category) {
-            const modal = document.getElementById('bookingModal');
-            const workerNameSpan = document.getElementById('modalWorkerName');
-            
-            if (modal && workerNameSpan) {
-                workerNameSpan.innerText = `${workerName} (${category})`;
-                document.getElementById('bookedWorker').value = workerName;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
         }
 
         function closeBookingModal() {
