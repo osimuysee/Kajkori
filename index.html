@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>কাজকরি - দক্ষ ও বিশ্বাসযোগ্য শ্রমিক সেবা</title>
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Hind Siliguri', sans-serif; }
     </style>
 
-    <!-- Firebase CDN SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -38,7 +36,9 @@
             🛠️ কাজ<span class="text-emerald-500">করি</span>
         </div>
         <div class="space-x-2">
-            <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">লগইন</button>
+            <a href="login.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition flex items-center gap-1">
+                👤 লগইন
+            </a>
             <a href="register.html" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition inline-block">
                 শ্রমিক হিসেবে যুক্ত হন
             </a>
@@ -60,24 +60,6 @@
                 খুঁজুন
             </button>
         </div>
-
-        <div class="flex flex-wrap gap-2 mb-6 mt-8">
-            <button onclick="filterCategory('all', this)" class="category-btn bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
-                সবগুলো
-            </button>
-            <button onclick="filterCategory('⚡ ইলেকট্রিশিয়ান', this)" class="category-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold transition">
-                ⚡ ইলেকট্রিশিয়ান
-            </button>
-            <button onclick="filterCategory('🚰 প্লাম্বার', this)" class="category-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold transition">
-                🚰 প্লাম্বার
-            </button>
-            <button onclick="filterCategory('🎨 রং মিস্ত্রি', this)" class="category-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold transition">
-                🎨 রং মিস্ত্রি
-            </button>
-            <button onclick="filterCategory('🔨 কাঠ মিস্ত্রি', this)" class="category-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold transition">
-                🔨 কাঠ মিস্ত্রি
-            </button>
-        </div>
     </section>
 
     <section class="max-w-6xl mx-auto px-4 my-16">
@@ -86,103 +68,84 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-900">কাছাকাছি ভেরিফাইড কারিগরগণ</h2>
                 <p class="text-gray-500 text-sm mt-1">NID ও পারফরম্যান্স যাচাইকৃত দক্ষ শ্রমিক</p>
             </div>
-            <a href="#" class="text-blue-600 hover:underline font-semibold text-sm">সবাইকে দেখুন →</a>
+            <button onclick="showAllWorkers()" class="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                সবাইকে দেখুন →
+            </button>
         </div>
 
-        <!-- Search & Filter Controls -->
-        <div class="bg-white p-4 rounded-xl shadow-sm border mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded-xl shadow-sm border mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-xs font-semibold text-gray-500 mb-1">খুঁজুন (নাম বা এলাকা)</label>
-                <input type="text" id="searchInput" onkeyup="filterWorkers()" placeholder="যেমন: Barishal বা Halland..." class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label class="block text-xs font-semibold text-gray-500 mb-1">খুঁজুন (নাম/এলাকা/ফোন)</label>
+                <input type="text" id="searchInput" onkeyup="filterWorkers()" placeholder="যেমন: ঢাকা বা 017..." class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-gray-500 mb-1">ক্যাটাগরি বেছে নিন</label>
                 <select id="categoryFilter" onchange="filterWorkers()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="all">সকল ক্যাটাগরি</option>
-                    <option value="রং মিস্ত্রি">রং মিস্ত্রি</option>
-                    <option value="ইলেকট্রিশিয়ান">ইলেকট্রিশিয়ান</option>
-                    <option value="প্লাম্বার">প্লাম্বার</option>
+                    <option value="রং মিস্ত্রি">🎨 রং মিস্ত্রি (Painter)</option>
+                    <option value="ইলেকট্রিশিয়ান">⚡ ইলেকট্রিশিয়ান (Electrician)</option>
+                    <option value="প্লাম্বার">🚰 প্লাম্বার (Plumber)</option>
+                    <option value="রাজমিস্ত্রি">🧱 রাজমিস্ত্রি (Mason)</option>
+                    <option value="কাঠমিস্ত্রি">🪚 কাঠমিস্ত্রি (Carpenter)</option>
+                    <option value="এসি ও ফ্রিজ টেকনিশিয়ান">❄️ এসি ও ফ্রিজ টেকনিশিয়ান</option>
+                    <option value="মেকানিক">🔧 মেকানিক (বাইক/গাড়ি)</option>
+                    <option value="বাসা পরিবর্তন ও লোডার">📦 বাসা পরিবর্তন ও লোড-আনলোড</option>
+                    <option value="ক্লিনার">🧹 হোম/অফিস ক্লিনার</option>
+                    <option value="কম্পিউটার ও সিসিটিভি">💻 কম্পিউটার ও সিসিটিভি টেকনিশিয়ান</option>
+                    <option value="দর্জি">✂️ দর্জি / টেইলার্স</option>
+                    <option value="মালি">🌱 মালি (Gardener)</option>
+                    <option value="গাড়ি চালক">🚘 ড্রাইভার / চালক</option>
+                    <option value="রান্নার বাবুর্চি">👨‍🍳 বাবুর্চি / কুক</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 mb-1">এলাকা বেছে নিন</label>
+                <select id="locationFilter" onchange="filterWorkers()" class="w-full border rounded-lg px-3 py-2 text-sm">
+                    <option value="all">সারা বাংলাদেশ (সব এলাকা)</option>
+                    <optgroup label="ঢাকা বিভাগ">
+                        <option value="ঢাকা">ঢাকা</option>
+                        <option value="গাজীপুর">গাজীপুর</option>
+                        <option value="নারায়ণগঞ্জ">নারায়ণগঞ্জ</option>
+                    </optgroup>
+                    <optgroup label="ময়মনসিংহ বিভাগ">
+                        <option value="ময়মনসিংহ">ময়মনসিংহ</option>
+                        <option value="জামালপুর">জামালপুর</option>
+                        <option value="শেরপুর">শেরপুর</option>
+                        <option value="নেত্রকোণা">নেত্রকোণা</option>
+                    </optgroup>
+                    <optgroup label="রাজশাহী বিভাগ">
+                        <option value="রাজশাহী">রাজশাহী</option>
+                        <option value="বগুড়া">বগুড়া</option>
+                        <option value="পাবনা">পাবনা</option>
+                    </optgroup>
+                    <optgroup label="চট্টগ্রাম বিভাগ">
+                        <option value="চট্টগ্রাম">চট্টগ্রাম</option>
+                        <option value="কুমিল্লা">কুমিল্লা</option>
+                        <option value="কক্সবাজার">কক্সবাজার</option>
+                    </optgroup>
+                    <optgroup label="বরিশাল বিভাগ">
+                        <option value="বরিশাল">বরিশাল</option>
+                        <option value="পটুয়াখালী">পটুয়াখালী</option>
+                    </optgroup>
+                    <optgroup label="সিলেট বিভাগ">
+                        <option value="সিলেট">সিলেট</option>
+                        <option value="মৌলভীবাজার">মৌলভীবাজার</option>
+                    </optgroup>
+                    <optgroup label="খুলনা বিভাগ">
+                        <option value="খুলনা">খুলনা</option>
+                        <option value="যশোর">যশোর</option>
+                    </optgroup>
+                    <optgroup label="রংপুর বিভাগ">
+                        <option value="রংপুর">রংপুর</option>
+                        <option value="দিনাজপুর">দিনাজপুর</option>
+                    </optgroup>
                 </select>
             </div>
         </div>
 
-        <div id="workerContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="worker-card bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between" data-category="⚡ ইলেকট্রিশিয়ান">
-                <div class="flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150" alt="Worker" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-500">
-                    <div>
-                        <div class="flex items-center gap-1">
-                            <h3 class="font-bold text-lg text-gray-800">রফিকুল ইসলাম</h3>
-                            <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded-full font-semibold">✓ ভেরিফাইড</span>
-                        </div>
-                        <p class="text-blue-600 font-medium text-sm">⚡ ইলেকট্রিশিয়ান</p>
-                        <p class="text-gray-500 text-xs mt-0.5">📍 মিরপুর-১০, ঢাকা (অভিজ্ঞতা: ৫ বছর)</p>
-                    </div>
-                </div>
-                <hr class="my-4 border-gray-100">
-                <div class="flex justify-between items-center text-sm">
-                    <div>
-                        <span class="text-yellow-500 font-bold">★ ৪.৯</span> 
-                        <span class="text-gray-400 text-xs">(৪৮টি রিভিউ)</span>
-                    </div>
-                    <p class="font-bold text-gray-800">৳৫০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
-                </div>
-                <button onclick="openBookingModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
-                    যোগাযোগ করুন
-                </button>
-            </div>
-
-            <div class="worker-card bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between" data-category="🚰 প্লাম্বার">
-                <div class="flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Worker" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-500">
-                    <div>
-                        <div class="flex items-center gap-1">
-                            <h3 class="font-bold text-lg text-gray-800">আব্দুল করিম</h3>
-                            <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded-full font-semibold">✓ ভেরিফাইড</span>
-                        </div>
-                        <p class="text-blue-600 font-medium text-sm">🚰 প্লাম্বার (পাইপ ফিটিং)</p>
-                        <p class="text-gray-500 text-xs mt-0.5">📍 উত্তরা, ঢাকা (অভিজ্ঞতা: ৮ বছর)</p>
-                    </div>
-                </div>
-                <hr class="my-4 border-gray-100">
-                <div class="flex justify-between items-center text-sm">
-                    <div>
-                        <span class="text-yellow-500 font-bold">★ ৪.৮</span> 
-                        <span class="text-gray-400 text-xs">(৬২টি রিভিউ)</span>
-                    </div>
-                    <p class="font-bold text-gray-800">৳৬০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
-                </div>
-                <button onclick="openBookingModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
-                    যোগাযোগ করুন
-                </button>
-            </div>
-
-            <div class="worker-card bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between" data-category="🎨 রং মিস্ত্রি">
-                <div class="flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" alt="Worker" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-500">
-                    <div>
-                        <div class="flex items-center gap-1">
-                            <h3 class="font-bold text-lg text-gray-800">মো: সুমন মিঞা</h3>
-                            <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded-full font-semibold">✓ ভেরিফাইড</span>
-                        </div>
-                        <p class="text-blue-600 font-medium text-sm">🎨 রং মিস্ত্রি</p>
-                        <p class="text-gray-500 text-xs mt-0.5">📍 ধানমন্ডি, ঢাকা (অভিজ্ঞতা: ৪ বছর)</p>
-                    </div>
-                </div>
-                <hr class="my-4 border-gray-100">
-                <div class="flex justify-between items-center text-sm">
-                    <div>
-                        <span class="text-yellow-500 font-bold">★ ৪.৭</span> 
-                        <span class="text-gray-400 text-xs">(৩১টি রিভিউ)</span>
-                    </div>
-                    <p class="font-bold text-gray-800">৳৪৫০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
-                </div>
-                <button onclick="openBookingModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
-                    যোগাযোগ করুন
-                </button>
-            </div>
-        </div>
+        <div id="workerContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
     <div id="bookingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
@@ -286,11 +249,13 @@
 
             workerContainer.innerHTML = '';
             workersList.forEach((w) => {
-                const img = w.image || 'https://via.placeholder.com/100';
+                const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(w.name || 'Worker')}&background=0D8ABC&color=fff&size=128`;
+                const imgSrc = w.image && w.image.startsWith('http') ? w.image : avatarUrl;
+
                 workerContainer.innerHTML += `
                     <div class="bg-white p-4 rounded-xl shadow border flex flex-col justify-between">
                         <div class="flex items-center gap-3">
-                            <img src="${img}" class="w-12 h-12 rounded-full object-cover border">
+                            <img src="${imgSrc}" onerror="this.onerror=null; this.src='${avatarUrl}';" class="w-14 h-14 rounded-full object-cover border-2 border-blue-500 shadow-sm" alt="${w.name || 'Worker'}">
                             <div>
                                 <h3 class="font-bold text-gray-800">${w.name || '-'}</h3>
                                 <span class="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-medium">${w.category || '-'}</span>
@@ -308,37 +273,41 @@
         }
 
         function filterWorkers() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+            const searchText = (document.getElementById('searchInput').value || '').toLowerCase().trim();
             const selectedCategory = document.getElementById('categoryFilter').value;
+            const selectedLocation = document.getElementById('locationFilter').value;
 
             const filtered = allWorkers.filter(w => {
                 const matchesSearch = (w.name && w.name.toLowerCase().includes(searchText)) || 
-                                      (w.area && w.area.toLowerCase().includes(searchText));
-                const matchesCategory = selectedCategory === 'all' || (w.category && w.category.includes(selectedCategory));
-                return matchesSearch && matchesCategory;
+                                      (w.area && w.area.toLowerCase().includes(searchText)) ||
+                                      (w.phone && String(w.phone).includes(searchText));
+                const matchesCategory = !selectedCategory || selectedCategory === 'all' || w.category === selectedCategory;
+                const matchesLocation = !selectedLocation || selectedLocation === 'all' || (w.area && w.area.includes(selectedLocation));
+                return matchesSearch && matchesCategory && matchesLocation;
             });
 
             renderWorkers(filtered);
         }
 
         function filterCategory(categoryName, selectedBtn) {
-            const filterBtns = document.querySelectorAll('.category-btn');
-            filterBtns.forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white');
-                btn.classList.add('bg-gray-100', 'text-gray-700');
-            });
-
-            if (selectedBtn) {
-                selectedBtn.classList.remove('bg-gray-100', 'text-gray-700');
-                selectedBtn.classList.add('bg-blue-600', 'text-white');
-            }
-
             const categoryFilter = document.getElementById('categoryFilter');
-            if (categoryFilter) {
-                categoryFilter.value = categoryName === 'all' ? 'all' : categoryName.replace('⚡ ', '').replace('🚰 ', '').replace('🎨 ', '').replace('🔨 ', '');
-            }
-
+            if (categoryFilter) categoryFilter.value = categoryName;
             filterWorkers();
+        }
+
+        function showAllWorkers() {
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const locationFilter = document.getElementById('locationFilter');
+
+            if (searchInput) searchInput.value = '';
+            if (categoryFilter) categoryFilter.value = 'all';
+            if (locationFilter) locationFilter.value = 'all';
+
+            renderWorkers(allWorkers);
+
+            const targetSection = document.getElementById('workerContainer');
+            if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         document.addEventListener('DOMContentLoaded', loadWorkers);
