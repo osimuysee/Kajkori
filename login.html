@@ -46,10 +46,9 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // লগইন ফর্ম সাবমিট
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = document.getElementById('adminEmail').value;
+            const email = document.getElementById('adminEmail').value.trim();
             const password = document.getElementById('adminPassword').value;
 
             auth.signInWithEmailAndPassword(email, password)
@@ -58,7 +57,8 @@
                     window.location.href = "admin.html";
                 })
                 .catch((error) => {
-                    alert('❌ ভুল ইমেইল বা পাসওয়ার্ড! আবার চেষ্টা করুন।');
+                    console.error(error);
+                    alert('❌ সমস্যা: ' + error.message);
                 });
         });
     </script>
