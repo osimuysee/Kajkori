@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -11,13 +10,12 @@
         body { font-family: 'Hind Siliguri', sans-serif; }
     </style>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyCXD9-SYaqnmatYe81M9wBeSB4wjJGFAZQ",
+            apiKey: "AIzaSyCXD9-SYAqnmatYe81M9wBeSB4wjJGFAZQ",
             authDomain: "kajkori-8a07e.firebaseapp.com",
             projectId: "kajkori-8a07e",
             storageBucket: "kajkori-8a07e.firebasestorage.app",
@@ -54,13 +52,22 @@
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">কাজের ক্যাটাগরি</label>
-                <select id="workerCategory" class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border focus:outline-none focus:border-blue-500 text-sm" required>
+                <select id="workerCategory" name="category" required class="w-full border p-2.5 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     <option value="">ক্যাটাগরি নির্বাচন করুন</option>
-                    <option value="⚡ ইলেকট্রিশিয়ান">⚡ ইলেকট্রিশিয়ান</option>
-                    <option value="🚰 প্লাম্বার">🚰 প্লাম্বার</option>
-                    <option value="🎨 রং মিস্ত্রি">🎨 রং মিস্ত্রি</option>
-                    <option value="🔨 কাঠ মিস্ত্রি">🔨 কাঠ মিস্ত্রি</option>
-                    <option value="🔧 মেকানিক">🔧 মেকানিক</option>
+                    <option value="রং মিস্ত্রি (Painter)">🎨 রং মিস্ত্রি (Painter)</option>
+                    <option value="ইলেকট্রিশিয়ান (Electrician)">⚡ ইলেকট্রিশিয়ান (Electrician)</option>
+                    <option value="প্লাম্বার (Plumber)">🚰 প্লাম্বার (Plumber)</option>
+                    <option value="রাজমিস্ত্রি (Mason)">🧱 রাজমিস্ত্রি (Mason)</option>
+                    <option value="কাঠমিস্ত্রি (Carpenter)">🪚 কাঠমিস্ত্রি (Carpenter)</option>
+                    <option value="এসি ও ফ্রিজ টেকনিশিয়ান">❄️ এসি ও ফ্রিজ টেকনিশিয়ান</option>
+                    <option value="মেকানিক (বাইক/গাড়ি)">🔧 মেকানিক (বাইক/গাড়ি)</option>
+                    <option value="বাসা পরিবর্তন ও লোড-আনলোড">📦 বাসা পরিবর্তন ও লোড-আনলোড</option>
+                    <option value="হোম/অফিস ক্লিনার">🧹 হোম/অফিস ক্লিনার</option>
+                    <option value="কম্পিউটার ও সিসিটিভি টেকনিশিয়ান">💻 কম্পিউটার ও সিসিটিভি টেকনিশিয়ান</option>
+                    <option value="দর্জি / টেইলার্স">✂️ দর্জি / টেইলার্স</option>
+                    <option value="মালি (Gardener)">🌱 মালি (Gardener)</option>
+                    <option value="ড্রাইভার / চালক">🚗 ড্রাইভার / চালক</option>
+                    <option value="বাবুর্চি / কুক">👨‍🍳 বাবুর্চি / কুক</option>
                 </select>
             </div>
 
