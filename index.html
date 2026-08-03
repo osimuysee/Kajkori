@@ -17,7 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
-      // আপনার আসল ফায়ারবেস কনফিগারেশন
       const firebaseConfig = {
         apiKey: "AIzaSyCXD9-SYaqnmatYe81M9wBeSB4wjJGFAZQ",
         authDomain: "kajkori-8a07e.firebaseapp.com",
@@ -28,14 +27,12 @@
         measurementId: "G-K4NH7TW7D9"
       };
 
-      // ফায়ারবেস ইনিশিয়ালাইজ করা
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
     </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- ১. নেভিগেশন বার -->
     <nav class="bg-white shadow-sm py-4 px-6 md:px-12 flex justify-between items-center border-b sticky top-0 z-40">
         <div class="text-2xl font-bold text-blue-600 tracking-wide">
             🛠️ কাজ<span class="text-emerald-500">করি</span>
@@ -48,7 +45,6 @@
         </div>
     </nav>
 
-    <!-- ২. হিরো সেকশন ও সার্চ বার -->
     <section class="max-w-4xl mx-auto text-center my-12 px-4">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
             আপনার এলাকার দক্ষ ও যাচাইকৃত শ্রমিক খুঁজুন
@@ -57,7 +53,6 @@
             ইলেকট্রিশিয়ান, প্লাম্বার, মেকানিকসহ যেকোনো দরকারে সেরা কারিগরদের সরাসরি বুক করুন।
         </p>
 
-        <!-- সার্চ বার -->
         <div class="bg-white p-3 rounded-2xl shadow-lg border border-gray-200 flex flex-col md:flex-row gap-3 max-w-3xl mx-auto">
             <input id="searchTask" type="text" placeholder="কী ধরণের কাজ? (যেমন: ইলেকট্রিশিয়ান)" class="w-full px-4 py-3 outline-none text-gray-700 text-base rounded-xl bg-gray-50 focus:bg-white border focus:border-blue-500">
             <input id="searchLocation" type="text" placeholder="আপনার এলাকা (যেমন: মিরপুর, ঢাকা)" class="w-full md:w-2/3 px-4 py-3 outline-none text-gray-700 text-base rounded-xl bg-gray-50 focus:bg-white border focus:border-blue-500">
@@ -66,7 +61,6 @@
             </button>
         </div>
 
-        <!-- ক্যাটাগরি ফিল্টার বাটনসমূহ -->
         <div class="flex flex-wrap gap-2 mb-6 mt-8">
             <button onclick="filterCategory('all', this)" class="category-btn bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
                 সবগুলো
@@ -86,7 +80,6 @@
         </div>
     </section>
 
-    <!-- ৩. ভেরিফাইড শ্রমিক সেকশন -->
     <section class="max-w-6xl mx-auto px-4 my-16">
         <div class="flex justify-between items-center mb-8">
             <div>
@@ -96,9 +89,7 @@
             <a href="#" class="text-blue-600 hover:underline font-semibold text-sm">সবাইকে দেখুন →</a>
         </div>
 
-        <!-- শ্রমিকদের কার্ড লিস্ট -->
         <div id="workerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
             <div class="worker-card bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between" data-category="⚡ ইলেকট্রিশিয়ান">
                 <div class="flex items-center gap-4">
                     <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150" alt="Worker" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-500">
@@ -119,7 +110,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৫০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান', '01712345678')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('রফিকুল ইসলাম', '⚡ ইলেকট্রিশিয়ান')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -144,7 +135,7 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৬০০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)', '01723456789')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('আব্দুল করিম', '🚰 প্লাম্বার (পাইপ ফিটিং)')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
@@ -169,11 +160,10 @@
                     </div>
                     <p class="font-bold text-gray-800">৳৪৫০ <span class="text-xs text-gray-500 font-normal">/ কাজ</span></p>
                 </div>
-                <button onclick="openModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি', '01734567890')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
+                <button onclick="openBookingModal('মো: সুমন মিঞা', '🎨 রং মিস্ত্রি')" class="w-full mt-4 bg-emerald-600 text-white font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">
                     যোগাযোগ করুন
                 </button>
             </div>
-
         </div>
     </section>
 
@@ -210,69 +200,9 @@
     </div>
 
     <script>
-        function openModal(name, category, phone) {
-            const modal = document.getElementById('bookingModal');
-            document.getElementById('modalWorkerName').textContent = name;
-            const modalWorkerPhone = document.getElementById('modalWorkerPhone');
-            if (modalWorkerPhone) {
-                modalWorkerPhone.textContent = '📞 ' + phone;
-                modalWorkerPhone.href = 'tel:' + phone;
-            }
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function renderRegisteredWorkers() {
-            const workerGrid = document.getElementById('workerGrid');
-            const savedWorkers = JSON.parse(localStorage.getItem('kajkori_workers')) || [];
-
-            savedWorkers.forEach(worker => {
-                const card = document.createElement('div');
-                card.setAttribute('data-category', worker.category);
-                card.className = "worker-card bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition";
-
-                card.innerHTML = `
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="bg-blue-50 text-blue-600 text-xs font-semibold px-2.5 py-1 rounded-md">${worker.category}</span>
-                            <span class="text-xs font-bold text-emerald-600">★ ${worker.rating || '৫.০'}</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-1">${worker.name}</h3>
-                        <p class="text-xs text-gray-500 mb-2">📍 ${worker.location} • 💼 ${worker.experience} বছরের অভিজ্ঞতা</p>
-                        <p class="text-sm font-semibold text-gray-700">চার্জ: ৳${worker.price} / কাজ</p>
-                    </div>
-                    <button onclick="openBookingModal('${worker.name}', '${worker.category}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-sm transition">
-                        বুকিং করুন
-                    </button>
-                `;
-
-                if (workerGrid) workerGrid.prepend(card);
-            });
-        }
-
-        function filterCategory(categoryName, selectedBtn) {
-            const filterBtns = document.querySelectorAll('.category-btn');
-            filterBtns.forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white');
-                btn.classList.add('bg-gray-100', 'text-gray-700');
-            });
-
-            if (selectedBtn) {
-                selectedBtn.classList.remove('bg-gray-100', 'text-gray-700');
-                selectedBtn.classList.add('bg-blue-600', 'text-white');
-            }
-
-            const allCards = document.querySelectorAll('.worker-card');
-            allCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                card.style.display = (categoryName === 'all' || cardCategory === categoryName) ? 'flex' : 'none';
-            });
-        }
-
         function openBookingModal(workerName, category) {
             const modal = document.getElementById('bookingModal');
             const workerNameSpan = document.getElementById('modalWorkerName');
-            
             if (modal && workerNameSpan) {
                 workerNameSpan.innerText = `${workerName} (${category})`;
                 document.getElementById('bookedWorker').value = workerName;
@@ -297,14 +227,13 @@
             const phone = document.getElementById('customerPhone').value;
             const address = document.getElementById('customerAddress').value;
 
-            // সরাসরি ফায়ারবেস ক্লাউডে ডাটা সেভ করা
             db.collection("bookings").add({
                 workerName: worker,
                 customerName: name,
                 customerPhone: phone,
                 customerAddress: address,
                 status: 'পেন্ডিং',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp() // ক্লাউড সার্ভারের নির্দিষ্ট সময়
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
                 alert(`ধন্যবাদ ${name}! আপনার বুকিং রিকোয়েস্টটি সফলভাবে সেভ হয়েছে।`);
@@ -316,15 +245,56 @@
             });
         }
 
-        function dismissToast(button) {
-            const toast = button.closest('div');
-            if (toast) {
-                toast.remove();
+        function filterCategory(categoryName, selectedBtn) {
+            const filterBtns = document.querySelectorAll('.category-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+
+            if (selectedBtn) {
+                selectedBtn.classList.remove('bg-gray-100', 'text-gray-700');
+                selectedBtn.classList.add('bg-blue-600', 'text-white');
             }
+
+            const allCards = document.querySelectorAll('.worker-card');
+            allCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                card.style.display = (categoryName === 'all' || cardCategory === categoryName) ? 'flex' : 'none';
+            });
+        }
+
+        function loadWorkersFromFirebase() {
+            db.collection("workers").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                const container = document.getElementById('workerGrid');
+                if (!container) return;
+
+                const defaultCards = Array.from(container.querySelectorAll('.worker-card'));
+                container.innerHTML = '';
+                defaultCards.forEach(card => container.appendChild(card));
+
+                snapshot.forEach((doc) => {
+                    const w = doc.data();
+                    const displayImage = w.image || 'https://via.placeholder.com/150';
+
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-xl shadow-md border hover:shadow-lg transition';
+                    card.innerHTML = `
+                        <img src="${displayImage}" alt="${w.name}" class="w-full h-40 object-cover rounded-lg mb-3" onerror="this.src='https://via.placeholder.com/150'">
+                        <h3 class="font-bold text-lg text-gray-900">${w.name || '-'}</h3>
+                        <p class="text-sm text-gray-500">${w.category || '-'} • ${w.area || '-'}</p>
+                        <p class="text-emerald-600 font-bold mt-2">চার্জ: ৳${w.charge || '-'}</p>
+                        <button onclick="openBookingModal('${w.name || ''}', '${w.category || ''}')" class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700">বুকিং করুন</button>
+                    `;
+                    container.appendChild(card);
+                });
+
+                filterCategory('all', document.querySelector('.category-btn'));
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderRegisteredWorkers();
+            loadWorkersFromFirebase();
             filterCategory('all', document.querySelector('.category-btn'));
         });
     </script>
