@@ -5,21 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>লগইন - কাজকরি</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCXD9-SYAqnmatYe81M9wBeSB4wjJGFAZQ",
+        authDomain: "kajkori-8a07e.firebaseapp.com",
+        projectId: "kajkori-8a07e",
+        storageBucket: "kajkori-8a07e.firebasestorage.app",
+        messagingSenderId: "594029245687",
+        appId: "1:594029245687:web:d2364820ce6be9d4104ff2",
+        measurementId: "G-K4NH7TW7D9"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+    </script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border text-center">
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">🛠️ কাজকরি-তে স্বাগতম</h1>
-        <p class="text-sm text-gray-500 mb-6">সহজেই লগইন করুন এবং আপনার এলাকার শ্রমিক খুঁজুন</p>
+    <div class="bg-white rounded-3xl shadow-xl w-full max-w-md p-6 md:p-8 relative">
+        <a href="index.html" class="text-xs text-gray-500 hover:text-blue-600 font-semibold mb-4 inline-block">← হোমপেজে ফিরুন</a>
+        
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">কাজকরি-তে স্বাগতম 🛠️</h1>
+            <p class="text-xs text-gray-500 mt-1">লগইন করতে আপনার সুবিধাজনক মাধ্যম বেছে নিন</p>
+        </div>
 
-        <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold shadow-sm hover:bg-gray-50 transition mb-4">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
-            গুগল (Google) দিয়ে প্রবেশ করুন
-        </button>
+        <div class="space-y-3 mb-6">
+            <button onclick="loginWithFacebook()" class="w-full bg-[#1877F2] text-white py-2.5 px-4 rounded-xl font-semibold text-sm hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-sm">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                ফেসবুক দিয়ে লগইন করুন
+            </button>
 
-        <div class="relative my-4">
-            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
-            <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-gray-400">অথবা ইমেইল দিয়ে</span></div>
+            <button onclick="loginWithGoogle()" class="w-full border border-gray-300 text-gray-700 bg-white py-2.5 px-4 rounded-xl font-semibold text-sm hover:bg-gray-50 transition flex items-center justify-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                গুগল দিয়ে লগইন করুন
+            </button>
+        </div>
+
+        <div class="flex items-center my-4">
+            <div class="flex-grow border-t border-gray-200"></div>
+            <span class="px-3 text-xs text-gray-400 font-medium">অথবা ফোন নম্বর / ইমেইল দিয়ে</span>
+            <div class="flex-grow border-t border-gray-200"></div>
+        </div>
+
+        <div id="phoneLoginForm" class="space-y-3 mb-5">
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">মোবাইল নম্বর</label>
+                <input type="tel" id="phoneNumber" placeholder="017XXXXXXXX" class="w-full px-3.5 py-2.5 rounded-xl border bg-gray-50 focus:bg-white text-sm outline-none focus:border-blue-500 transition">
+            </div>
+
+            <div id="recaptcha-container"></div>
+
+            <button id="sendOtpBtn" onclick="sendOTP()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-sm hover:bg-emerald-700 transition shadow-sm">
+                ওটিপি (OTP) পাঠান
+            </button>
+
+            <div id="otpBox" class="hidden space-y-3 pt-2">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">ফোনে আসা ৬ সংখ্যার ওটিপি (OTP)</label>
+                    <input type="text" id="otpCode" placeholder="123456" class="w-full px-3.5 py-2.5 rounded-xl border bg-gray-50 focus:bg-white text-center font-bold tracking-widest text-lg outline-none focus:border-blue-500">
+                </div>
+                <button onclick="verifyOTP()" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm hover:bg-blue-700 transition shadow-sm">
+                    ওটিপি ভেরিফাই ও লগইন
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center my-4">
+            <div class="flex-grow border-t border-gray-200"></div>
+            <span class="px-3 text-xs text-gray-400 font-medium">অথবা ইমেইল দিয়ে</span>
+            <div class="flex-grow border-t border-gray-200"></div>
         </div>
 
         <form id="loginForm" class="space-y-4 text-left">
@@ -33,39 +97,78 @@
                 <input type="password" id="userPassword" placeholder="••••••••" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">লগইন / রেজিস্টার</button>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                লগইন / রেজিস্টার
+            </button>
         </form>
-
-        <a href="index.html" class="inline-block mt-6 text-sm text-gray-500 hover:underline">← হোমপেজে ফিরে যান</a>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCXD9-SYAqnmatYe81M9wBeSB4wjJGFAZQ",
-            authDomain: "kajkori-8a07e.firebaseapp.com",
-            databaseURL: "https://kajkori-8a07e-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "kajkori-8a07e",
-            storageBucket: "kajkori-8a07e.firebasestorage.app",
-            messagingSenderId: "594029245687",
-            appId: "1:594029245687:web:d2364820ce6be9d4104ff2",
-            measurementId: "G-K4NH7TW7D9"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
                 .then((result) => {
-                    alert("🎉 স্বাগতম " + (result.user.displayName || 'ইউজার') + "!");
+                    alert("স্বাগতম " + (result.user.displayName || "ইউজার") + "!");
                     window.location.href = "index.html";
                 })
+                .catch((error) => alert("গুগল লগইন সমস্যা: " + error.message));
+        }
+
+        function loginWithFacebook() {
+            const provider = new firebase.auth.FacebookAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    alert("স্বাগতম " + (result.user.displayName || "ইউজার") + "!");
+                    window.location.href = "index.html";
+                })
+                .catch((error) => alert("ফেসবুক লগইন সমস্যা: " + error.message));
+        }
+
+        window.onload = function() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                size: 'invisible'
+            });
+        };
+
+        function sendOTP() {
+            let phone = document.getElementById('phoneNumber').value.trim();
+            if (!phone) {
+                alert("দয়া করে আপনার ফোন নম্বরটি লিখুন");
+                return;
+            }
+
+            if (!phone.startsWith("+88")) {
+                phone = "+88" + phone;
+            }
+
+            const appVerifier = window.recaptchaVerifier;
+
+            auth.signInWithPhoneNumber(phone, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    alert("আপনার ফোনে ওটিপি (OTP) পাঠানো হয়েছে!");
+                    document.getElementById('otpBox').classList.remove('hidden');
+                    document.getElementById('sendOtpBtn').classList.add('hidden');
+                })
                 .catch((error) => {
-                    alert("❌ গুগল লগইনে সমস্যা: " + error.message);
+                    alert("ওটিপি পাঠাতে সমস্যা হয়েছে: " + error.message);
+                });
+        }
+
+        function verifyOTP() {
+            const code = document.getElementById('otpCode').value.trim();
+            if (!code) {
+                alert("দয়া করে ৬ ডিজিটের ওটিপি কোডটি লিখুন");
+                return;
+            }
+
+            window.confirmationResult.confirm(code)
+                .then(() => {
+                    alert("লগইন সফল হয়েছে!");
+                    window.location.href = "index.html";
+                })
+                .catch(() => {
+                    alert("ভুল ওটিপি কোড! আবার চেষ্টা করুন।");
                 });
         }
 
